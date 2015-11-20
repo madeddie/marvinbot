@@ -3,6 +3,7 @@ require 'cinch'
 # plugins
 require_relative "plugins/hello"
 require_relative "plugins/version"
+require_relative "plugins/source"
 
 bot = Cinch::Bot.new do
   configure do |c|
@@ -12,7 +13,7 @@ bot = Cinch::Bot.new do
     c.realname = "I will survice, Hey Hey"
     c.user = "ultron"
     c.plugins.prefix = /^~/
-    c.plugins.plugins = [Hello, Version]
+    c.plugins.plugins = [Hello, Version, Source]
   end
 
 end
