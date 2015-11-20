@@ -4,6 +4,7 @@ require 'cinch'
 require_relative "plugins/hello"
 require_relative "plugins/version"
 require_relative "plugins/source"
+require_relative "plugins/doodle"
 
 bot = Cinch::Bot.new do
   configure do |c|
@@ -16,6 +17,9 @@ bot = Cinch::Bot.new do
     c.plugins.plugins = [Hello, Version, Source]
   end
 
+  trap "SIGINT" do
+    bot.quit
+  end
 end
 
 bot.start
