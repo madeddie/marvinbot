@@ -13,9 +13,9 @@ config = YAML.load(File.read('./config.yml'))
 
 bot = Cinch::Bot.new do
   configure do |c|
-    c.nick = 'ultron'
-    c.server = 'irc.freenode.org'
-    c.channels = ['##ultron', '#dehaarlemseconnectie']
+    c.nick = config['nickname']
+    c.server = config['server']
+    c.channels = config['channels']
     c.realname = 'I will survice, Hey Hey'
     c.user = 'ultron'
     c.plugins.prefix = /^~/
