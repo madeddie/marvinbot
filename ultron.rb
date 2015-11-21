@@ -19,7 +19,11 @@ bot = Cinch::Bot.new do
     c.realname = 'I will survice, Hey Hey'
     c.user = 'ultron'
     c.plugins.prefix = /^~/
-    c.plugins.plugins = [Cinch::Plugins::Identify, Hello, Version, Source, Doodle, Topic]
+    c.plugins.plugins = [
+      Cinch::Plugins::Identify,
+      Hello, Version, Source,
+      Doodle, Topic
+    ]
     c.plugins.options[Cinch::Plugins::Identify] = {
       username: config['username'],
       password: config['password'],

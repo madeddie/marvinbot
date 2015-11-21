@@ -1,3 +1,4 @@
+# Output the version of Cinch framework to the user/channel
 class Version
   include Cinch::Plugin
 
