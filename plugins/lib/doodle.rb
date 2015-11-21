@@ -48,6 +48,8 @@ class DoodlePoll
   end
   alias_method :participants, :people
 
+  private
+
   # Parse the doodle html's javascript
   # sets variables:
   # * @people : array of all participants
