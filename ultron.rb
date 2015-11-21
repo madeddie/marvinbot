@@ -18,7 +18,7 @@ bot = Cinch::Bot.new do
     c.realname = 'I will survice, Hey Hey'
     c.user = 'ultron'
     c.plugins.prefix = /^~/
-    c.plugins.plugins = [Identify, Hello, Version, Source]
+    c.plugins.plugins = [Identify, Hello, Version, Source, Doodle]
     c.plugins.options[Identify] = {
       password: config['password'],
       type:     :nickserv
