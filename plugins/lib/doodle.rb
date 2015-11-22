@@ -43,6 +43,13 @@ class DoodlePoll
   end
   alias_method :winners, :winner
 
+  def loser
+    dates = @date_hash.select { |_, v| v == @date_hash.values.min }.keys
+    dates.map! { |k| k.strftime('%a %F') }
+    (dates.count > 1 ? 'It\'s a tie for: ' : 'The loser is: ') + dates * ', '
+  end
+  alias_method :losers, :loser
+
   def people
     @people.map { |p| p['name'] } * ', '
   end
