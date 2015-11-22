@@ -3,26 +3,13 @@ require 'open-uri'
 require 'json'
 require 'date'
 
-# Add Hash invertor to Hash class
-class Hash
-  # inverts hash while expanding all the values
-  def invert_expand
-    each_with_object({}) do |(key, values), out|
-      values.each do |value|
-        out[value] ||= []
-        out[value] << key
-      end
-    end
-  end
-end
-
 # This class parses doodle polls and is able to output
 # statistical information about them
 class DoodlePoll
-  attr_accessor :doodle_url
-  alias_method :url, :doodle_url
+  attr_accessor :url
+
   def initialize(url)
-    @doodle_url = url
+    @url = url
     parse_doodle_html
     construct_datehash
   end
@@ -63,7 +50,7 @@ class DoodlePoll
   # * @raw_dates : array of dates in US format
   # * @date_objects : array of strptime parsed Date objects
   def parse_doodle_html
-    doc = Nokogiri::HTML(open(@doodle_url))
+    doc = Nokogiri::HTML(open(@url))
     scriptdata = doc.xpath('//script')[9]
 
     @people = JSON.parse(/"participants":(\[{.+?}\])/.match(scriptdata)[1])

@@ -1,4 +1,4 @@
-require_relative 'lib/doodle'
+require_relative 'lib/doodle_poll'
 
 # Create instance of DoodlePoll class and execute command
 class Doodle
@@ -7,14 +7,14 @@ class Doodle
   match(/doodle(.*)/)
 
   def execute(msg, query)
-    if query
-      query_parts = query.split
-      cmd = query_parts[0]
-      url = query_parts[1] if query_parts.count > 1
+    cmd, url = query.split if query
+    cmd ||= 'winner'
+    url ||= %r{http://doodle.com/poll/.\w+}.match(msg.channel.topic)[0]
+    if url
+      doodle = DoodlePoll.new(url)
+      msg.reply(doodle.send(cmd)) if doodle.respond_to? cmd
+    else
+      msg.reply('No url found, use ~doodle [cmd] [url] to supply url')
     end
-    cmd = 'winner' unless cmd
-    url = %r{http://doodle.com/poll/.\w+}.match(msg.channel.topic)[0] unless url
-    doodle = DoodlePoll.new(url)
-    msg.reply doodle.send(cmd)
   end
 end
