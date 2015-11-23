@@ -24,11 +24,11 @@ class DoodlePoll
   end
 
   def least_voted_dates(date_hash)
-    date_hash.select { |_, v| v == date_hash.values.min }
+    date_hash.select { |_, v| v.count == date_hash.values.min.count }
   end
 
   def most_voted_dates(date_hash)
-    date_hash.select { |_, v| v == date_hash.values.max }
+    date_hash.select { |_, v| v.count == date_hash.values.max.count }
   end
 
   def winner
