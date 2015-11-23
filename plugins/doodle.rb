@@ -9,7 +9,7 @@ class Doodle
   def execute(msg, query)
     cmd, url = query.split if query
     cmd ||= 'winner'
-    url ||= %r{http://doodle.com/poll/.\w+}.match(msg.channel.topic)[0]
+    url ||= msg.channel.topic[%r{http://doodle.com/poll/.\w+}]
     if url
       doodle = DoodlePoll.new(url)
       msg.reply(doodle.send(cmd)) if doodle.respond_to? cmd
