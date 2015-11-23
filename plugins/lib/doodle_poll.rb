@@ -23,19 +23,35 @@ class DoodlePoll
     @date_hash.map { |k, v| "#{k.strftime('%F')} [#{v.count}]" } * ', '
   end
 
+  def least_voted_dates(date_hash)
+    date_hash.select { |_, v| v == date_hash.values.min }
+  end
+
+  def most_voted_dates(date_hash)
+    date_hash.select { |_, v| v == date_hash.values.max }
+  end
+
   def winner
-    dates = @date_hash.select { |_, v| v == @date_hash.values.max }.keys
+    dates = most_voted_dates(@date_hash).keys
     dates.map! { |k| k.strftime('%a %F') }
     (dates.count > 1 ? 'It\'s a tie for: ' : 'The winner is: ') + dates * ', '
   end
   alias_method :winners, :winner
 
   def loser
-    dates = @date_hash.select { |_, v| v == @date_hash.values.min }.keys
+    dates = least_voted_dates(@date_hash).keys
     dates.map! { |k| k.strftime('%a %F') }
     (dates.count > 1 ? 'It\'s a tie for: ' : 'The loser is: ') + dates * ', '
   end
   alias_method :losers, :loser
+
+  def runner_up
+    temp_dates = most_voted_dates(@date_hash).keys
+    temp_date_hash = @date_hash.reject { |k, _| temp_dates.include? k }
+    dates = most_voted_dates(temp_date_hash).keys
+    dates.map! { |k| k.strftime('%a %F') }
+    (dates.count > 1 ? 'The runner-ups: ' : 'The runner-up: ') + dates * ', '
+  end
 
   def people
     @people.map { |p| p['name'] } * ', '
