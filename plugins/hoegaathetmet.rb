@@ -9,7 +9,7 @@ class HoeGaat
   def execute(msg, query)
     begin
       hoe = HoeGaatHetMet.new(query)
-      msg.reply("#{hoe.name} is current #{hoe.headline}") if hoe
+      msg.reply("#{hoe.name} is currently #{hoe.current}") if hoe
     rescue NoMethodError
       msg.reply("Nobody found with name: #{query}")
     end

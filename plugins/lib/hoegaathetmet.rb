@@ -16,6 +16,18 @@ class HoeGaatHetMet
     @headline ||= @profile.css('div.profile-overview-content').css('p.headline').text
   end
 
+  def current_org
+    @current_org ||= @profile.css('a.public-profile-link').attr('href').value
+  end
+
+  def current
+    if @headline.include? @current_org
+      return @headline
+    else
+      return "#{@headline} at #{@current_org}"
+    end
+  end
+
   def load_profile
     company = 'Nxs Internet B.V.'
     query = "site:nl.linkedin.com/pub #{company}"
