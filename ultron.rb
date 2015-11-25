@@ -8,6 +8,7 @@ require_relative 'plugins/version'
 require_relative 'plugins/source'
 require_relative 'plugins/doodle'
 require_relative 'plugins/topic'
+require_relative 'plugins/hoegaathetmet'
 
 config = YAML.load(File.read('./config.yml'))
 
@@ -22,7 +23,7 @@ bot = Cinch::Bot.new do
     c.plugins.plugins = [
       Cinch::Plugins::Identify,
       Hello, Version, Source,
-      Doodle, Topic
+      Doodle, Topic, HoeGaat
     ]
     c.plugins.options[Cinch::Plugins::Identify] = {
       username: config['username'],
