@@ -23,7 +23,9 @@ class HoeGaatHetMet
     uri = results.first.uri
     if uri =~ %r{nl\.linkedin\.com/pub/dir/}
       profile_list = Nokogiri::HTML(open(uri)).css('ul.content').css('li')
-      profile_uri = profile_list.at("li:contains(\"#{company}\")").css('a.public-profile-link').attr('href').value
+      profile_select = profile_list.at('li:contains("Nxs")')
+      profile_select ||= profile_list.at('li:contains("NXS")')
+      profile_uri = profile_select.css('a.public-profile-link').attr('href').value
       @profile = Nokogiri::HTML(open(profile_uri))
     else
       @profile = Nokogiri::HTML(open(uri))
