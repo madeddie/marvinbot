@@ -21,8 +21,7 @@ class HoeGaatHetMet
     query = "site:nl.linkedin.com/pub #{company}"
     results = Google::Search::Web.new(query: "#{query} \"#{@query_name}\"")
     uri = results.first.uri
-    title = results.first.title
-    if title =~ /^Top \d+ profielen/
+    if uri =~ %r{nl\.linkedin\.com/pub/dir/}
       profile_list = Nokogiri::HTML(open(uri)).css('ul.content').css('li')
       profile_uri = profile_list.at("li:contains(\"#{company}\")").css('a.public-profile-link').attr('href').value
       @profile = Nokogiri::HTML(open(profile_uri))
