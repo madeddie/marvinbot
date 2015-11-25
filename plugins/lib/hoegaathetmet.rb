@@ -17,12 +17,12 @@ class HoeGaatHetMet
   end
 
   def current_org
-    @current_org ||= @profile.css('a.public-profile-link').attr('href').value
+    @current_org ||= @profile.css('span.org').text
   end
 
   def current
-    if @headline.include? @current_org
-      return @headline
+    if headline.include? current_org
+      return headline
     else
       return "#{@headline} at #{@current_org}"
     end
