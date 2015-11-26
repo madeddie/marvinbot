@@ -21,7 +21,7 @@ class HoeGaatHetMet
   end
 
   def current
-    if headline.include? current_org
+    if headline.downcase.include? current_org.downcase
       return headline
     else
       return "#{@headline} at #{@current_org}"
@@ -29,11 +29,11 @@ class HoeGaatHetMet
   end
 
   def load_profile
-    company = 'Nxs Internet B.V.'
-    query = "site:nl.linkedin.com/pub #{company}"
+    company = 'nxs internet'
+    query = "site:linkedin.com #{company}"
     results = Google::Search::Web.new(query: "#{query} \"#{@query_name}\"")
     uri = results.first.uri
-    if uri =~ %r{nl\.linkedin\.com/pub/dir/}
+    if uri =~ %r{(nl|www)\.linkedin\.com/pub/dir/}
       profile_list = Nokogiri::HTML(open(uri)).css('ul.content').css('li')
       profile_select = profile_list.at('li:contains("Nxs")')
       profile_select ||= profile_list.at('li:contains("NXS")')
