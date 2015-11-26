@@ -38,9 +38,11 @@ class HoeGaatHetMet
       profile_select = profile_list.at('li:contains("Nxs")')
       profile_select ||= profile_list.at('li:contains("NXS")')
       profile_uri = profile_select.css('a.public-profile-link').attr('href').value
-      @profile = Nokogiri::HTML(open(profile_uri))
+      profile = Nokogiri::HTML(open(profile_uri))
+      @profile = profile if profile.css('h1.fn').text.downcase.include? @query_name.downcase
     else
-      @profile = Nokogiri::HTML(open(uri))
+      profile = Nokogiri::HTML(open(uri))
+      @profile = profile if profile.css('h1.fn').text.downcase.include? @query_name.downcase
     end
   end
 end
