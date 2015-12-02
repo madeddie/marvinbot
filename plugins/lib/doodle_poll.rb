@@ -7,6 +7,9 @@ require 'date'
 # statistical information about them
 class DoodlePoll
   attr_accessor :url
+  attr_reader :final_pick
+  attr_reader :venue
+  attr_reader :address
 
   def initialize(url)
     @url = url
@@ -71,6 +74,10 @@ class DoodlePoll
 
     @people = JSON.parse(/"participants":(\[{.+?}\])/.match(scriptdata)[1])
     @raw_dates = JSON.parse(/"optionsText":(\[.+?\])/.match(scriptdata)[1])
+    @final_pick = /"finalPicksText":"(.+?)"/.match(scriptdata)[1]
+    @location = JSON.parse(/"location":(\{.+?\})/.match(scriptdata)[1])
+    @address = @location['address']
+    @venue = @location['name']
     date_string = '%a %m/%d/%y'
     @date_objects = @raw_dates.map { |date| Date.strptime(date, date_string) }
   end
