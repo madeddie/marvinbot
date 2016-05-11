@@ -13,7 +13,9 @@ class HoeGaatHetMet
   end
 
   def headline
-    @headline ||= @profile.css('div.profile-overview-content').css('p.headline').text
+    @headline ||= @profile.css(
+      'div.profile-overview-content'
+    ).css('p.headline').text
   end
 
   def current_org
@@ -21,17 +23,15 @@ class HoeGaatHetMet
   end
 
   def current
-    if headline.downcase.include? current_org.downcase
-      return headline
-    else
-      return "#{@headline} at #{@current_org}"
-    end
+    return "#{@headline} at #{@current_org}" unless @headline =~ /#{@current_org}/i
+    headline
   end
 
   def load_profile
     company = 'nxs internet'
     query = "site:linkedin.com #{company}"
     results = Google::Search::Web.new(query: "#{query} \"#{@query_name}\"")
+    puts results.pretty_inspect
     uri = results.first.uri
     if uri =~ %r{(nl|www)\.linkedin\.com/pub/dir/}
       profile_list = Nokogiri::HTML(open(uri)).css('ul.content').css('li')
@@ -39,10 +39,9 @@ class HoeGaatHetMet
       profile_select ||= profile_list.at('li:contains("NXS")')
       profile_uri = profile_select.css('a.public-profile-link').attr('href').value
       profile = Nokogiri::HTML(open(profile_uri))
-      @profile = profile if profile.css('h1.fn').text.downcase.include? @query_name.downcase
     else
       profile = Nokogiri::HTML(open(uri))
-      @profile = profile if profile.css('h1.fn').text.downcase.include? @query_name.downcase
     end
+    @profile = profile if profile.css('h1.fn').text =~ /#{@query_name}/i
   end
 end

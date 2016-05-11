@@ -7,11 +7,9 @@ class HoeGaat
   match(/hoe (.*)/)
 
   def execute(msg, query)
-    begin
-      hoe = HoeGaatHetMet.new(query)
-      msg.reply("#{hoe.name} is currently #{hoe.current}") if hoe
-    rescue NoMethodError
-      msg.reply("Nobody found with name: #{query}")
-    end
+    hoe = HoeGaatHetMet.new(query)
+    msg.reply("#{hoe.name} is currently #{hoe.current}") if hoe
+  rescue NoMethodError
+    msg.reply("Nobody found with name: #{query}")
   end
 end

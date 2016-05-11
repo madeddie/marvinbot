@@ -10,11 +10,19 @@ class Doodle
     cmd, url = query.split if query
     cmd ||= 'winner'
     url ||= msg.channel.topic[%r{http://doodle.com/poll/.\w+}]
-    if url
+    if cmd == 'help'
+      cmds = DoodlePoll.help
+      msg.reply("Available commands: #{cmds}")
+    elsif url
+      debug "Trying to parse #{url} and respond to command #{cmd}"
       doodle = DoodlePoll.new(url)
-      msg.reply(doodle.send(cmd)) if doodle.respond_to? cmd
+      if doodle.respond_to? cmd
+        msg.reply(doodle.send(cmd))
+      else
+        msg.reply("Unknown command: #{cmd}")
+      end
     else
-      msg.reply('No url found, use ~doodle [cmd] [url] to supply url')
+      msg.reply('No url found, use ~doodle <cmd> <url> to supply url')
     end
   end
 end

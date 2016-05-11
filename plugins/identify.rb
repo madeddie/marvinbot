@@ -105,13 +105,13 @@ module Cinch
 
       def identify_dalnet
         User('Nickserv@services.dal.net').send(
-          'identify %s' % [config[:password]]
+          format('identify %s', config[:password])
         )
       end
 
       def identify_quakenet
         User('Q@CServe.quakenet.org').send(
-          'auth %s %s' % [config[:username], config[:password]]
+          format('auth %s %s', config[:username], config[:password])
         )
       end
 
@@ -122,24 +122,24 @@ module Cinch
       def identify_nickserv
         service_name = config[:service_name] || 'nickserv'
         service_name = service_name.split('@').first
-        if config[:username]
-          cmd = 'identify %s %s' % [config[:username], config[:password]]
-        else
-          cmd = 'identify %s' % [config[:password]]
-        end
+        cmd = if config[:username]
+                format('identify %s %s', config[:username], config[:password])
+              else
+                format('identify %s', config[:password])
+              end
         User(service_name).send(cmd)
       end
 
       def identify_kreynet
         User('K!k@krey.net').send(
-          'LOGIN %s %s' % [config[:username], config[:password]]
+          format('LOGIN %s %s', config[:username], config[:password])
         )
       end
 
       def identify_userserv
         service_name = config[:service_name] || 'UserServ'
         User(service_name).send(
-          'LOGIN %s %s' % [config[:username], config[:password]]
+          format('LOGIN %s %s', config[:username], config[:password])
         )
       end
     end
